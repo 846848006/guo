@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>个人心中</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <link rel="stylesheet" href="">  
+  <link rel="stylesheet" type="text/css" href="style/weui.min.css"/>
+    <link rel="stylesheet" href="style/example.css">
+
+<style media="screen">
+.weui-media-box_appmsg .weui-media-box__hd {
+  height: 60px;
+  line-height: 60px;
+  margin-right: 0.8em;
+  text-align: center;
+  width: 60px;
+}
+.weui-media-box_appmsg .weui-media-box__thumb {
+    max-height: 100%;
+    vertical-align: top;
+    width: 100%;
+}
+[v-cloak] {
+     display: none !important;
+}
+</style>
+</head>
+<body>
+  <div id="app" v-cloak>
+<div class="weui-panel weui-panel_access">
+  <div class="weui-panel__bd">
+      <div class="weui-media-box weui-media-box_appmsg">
+          <div class="weui-media-box__hd">
+              <img class="weui-media-box__thumb" src="./images/top.png" alt="">
+          </div>
+          <div class="weui-media-box__bd">
+              <h4 class="weui-media-box__title">{{items.name}}</h4>
+              <h4 class="weui-media-box__title">{{items.phone}}</h4>
+          </div>
+      </div>
+
+  </div>
+
+</div>
+
+<div class="weui-cells" style="font-size:14px">
+  <a class="weui-cell weui-cell_access" @click='yue(items)'>
+      <div class="weui-cell__bd">
+          <p>余额：{{items.balance?items.balance:0}}元</p>
+      </div>
+      <div class="weui-cell__ft" style="font-size:12px">详情</div>
+  </a>
+  <a class="weui-cell weui-cell_access"  @click='chongzhi()'>
+      <div class="weui-cell__bd">
+          <p>充值</p>
+      </div>
+      <div class="weui-cell__ft"></div>
+  </a>
+</div>
+
+<div class="weui-cells" style="font-size:14px">
+  <a class="weui-cell weui-cell_access" @click='baoxiulist()'>
+      <div class="weui-cell__bd">
+          <p>报修工单</p>
+      </div>
+      <div class="weui-cell__ft"></div>
+  </a>
+</div>
+</div>
+<script src="http://cdn.bootcss.com/js-cookie/2.1.2/js.cookie.min.js "></script> 
+<script  src='js/vue.min.js'></script>
+<script src='js/axios.min.js'></script>
+<script src='js/jquery.js'> </script>
+<script src='js/arg.js'></script>
+<script src='js/index.js'> </script>
+
+
+</body>
+</html>

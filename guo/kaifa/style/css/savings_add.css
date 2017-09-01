@@ -1,0 +1,11 @@
+.czMain{padding-bottom:58px}
+.numberCon {background-color: #fff;border-top:1px solid #d9d9d9}
+.numberCon{clear:both}
+.numberCon:after{content:"";display:block;height:0;clear:both;visibility:hidden}
+.numberCon .numberlist{width:33.33%;float:left;display:-webkit-box}
+.numberCon .numberlist div{-webkit-box-flex:1;border-bottom:1px solid #d9d9d9;border-right:1px solid #d9d9d9;height:50px;line-height:50px;font-size:16px;text-align:center;}
+.numberCon .numberlist:nth-child(3n+3) div{border-right:0 none}
+.numberCon .numberlist div.con{border:1px solid #fb8c00;padding:0 0 0 1px;margin:-1px 0px 0px -1px}
+.bottomfix{position: fixed;bottom: 0px;left:0px;width:100%;height:48px;line-height: 48px;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-pack:center;background-color:#fff}
+.bottomfix .leftdiv{-webkit-box-flex:1;color:#dc2254;text-align: center;}
+.bottomfix .rightdiv{background-color:#fb8c00;padding:0 20px;color:#fff}

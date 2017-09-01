@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>选择设备</title>
+    <link rel="stylesheet" type="text/css" href="style/weui.min.css"/>
+    <link rel="stylesheet" href="style/example.css">
+    <link rel="stylesheet" href="style/css/index.css">
+ 
+</head>
+<body>
+<div id="app" v-cloak>
+<div class="">
+    <div class="page__bd">
+        <div class="weui-search-bar" id="searchBar">
+            <div class="weui-search-bar__form">
+                <div class="weui-search-bar__box">
+                    <i class="tu"><img src="images/da.png" alt=""> </i> <input type="search" class="weui-search-bar__input" id="searchInput" @blur="searchBlur($event)" @input="searchInput($event)" placeholder="搜索" required/>
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear" @click="searchClear()"> </a>
+                </div>
+                <label class="weui-search-bar__label" id="searchText" @click="searchTextClick()">
+                    <i class="tu1"><img src="images/da.png" alt=""> </i> <span> 搜索 </span> </label></div>
+            <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel" @click="searchCancel()"> 取消 </a></div>
+
+        <div class="weui-cells searchbar-result  zindex-list-classify" id="searchResult" style="display:none">
+
+            <div class="weui-cell weui-cell_access"  @click="toFailt(r.id,r.name)" v-for="r in searchres">
+                <div class="weui-cell__bd weui-cell_primary">
+                    <p> {{r.name}} </p></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 左侧一级菜单 -->
+<div class="lfetNav">
+    <div id="wrapperLeft">
+        <div id="scrollerLeft">
+            <div class="weui-cells" style="margin-top:0">
+                <div class="weui-cell" id={{item.id}} v-for="item in items" @click="changeType(item.id)">
+                    <div class="weui-cell__hd" v-if="item.id==selected"><i class="classCon"> </i></div>
+                    <div class="weui-cell__bd" >
+                        <p> {{item.name}} </p>
+                    </div>
+                    <div class="weui-cell__ft">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 右侧二级菜单 -->
+<div class="rightSubNav">
+    <div id="wrapperRight">
+        <div id="scrollerRight">
+            <div class="weui-cells"
+                 style="margin-top:0">
+                <a class="weui-cell weui-cell_access"  @click="toFailt(device.id,device.name)"
+                   href="javascript:;" v-for="device in devices">
+                    <div class="weui-cell__bd">
+                        <p> {{device.name}} </p></div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a></div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+</div>
+<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src='js/axios.min.js'></script>
+<script src="js//jquery.js"></script>
+<script src="http://cdn.bootcss.com/js-cookie/2.1.2/js.cookie.min.js"></script>
+<script src="js/arg.js"></script>
+<script type="text/javascript" src="js/iscroll.js"></script>
+<script src='js/index.js'></script>
+

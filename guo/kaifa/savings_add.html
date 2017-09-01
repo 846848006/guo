@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<title>储值购买</title>
+<link rel="stylesheet" type="text/css" href="style/weui.min.css"/>
+<link rel="stylesheet" href="style/example.css">
+<link rel="stylesheet" href="style/css/savings_add.css">
+</head>
+<body>
+<div id="app">
+<div class="czMain">
+  <div class="weui-panel" style="font-siz:14px">
+      <div class="weui-panel__bd">
+          <div class="weui-media-box weui-media-box_text">
+              <h4 class="weui-media-box__title">充值账户：{{userinfo}}</h4>
+              <p class="weui-media-box__desc" style="font-size:12px;color:#999;margin-top:10px">当前仅支持充值个人绑定账户</p>
+          </div>
+      </div>
+  </div>
+  <div class="numberCon">
+      <div class="numberlist" v-for='i in items' @click="select($event,i)"><div >{{i.name}}元</div></div>
+</div>
+</div>
+<div class="bottomfix">
+  <div class="leftdiv">合计：{{price}}元</div>
+  <div class="rightdiv" @click="paysaving()">立即充值</div>
+</div>
+</div>
+
+<script  src='js/vue.min.js'></script>
+<script src='js/axios.min.js'></script>
+<script src='js/jquery.js'> </script>
+<script src='js/arg.js'></script>
+<script src="http://cdn.bootcss.com/js-cookie/2.1.2/js.cookie.min.js "></script>
+<script src='js/savings_add.js'></script>
+
+
+
+</body>
+</html>

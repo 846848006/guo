@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>结算</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	<link rel="stylesheet" href="">  
+	<link rel="stylesheet" type="text/css" href="style/weui.min.css"/>
+    <link rel="stylesheet" href="style/example.css">
+</head>
+<style>
+    .red{
+    	color: #f43530;
+    }
+    [v-cloak] {
+    display: none !important;
+  	}
+</style>
+<body>
+<div id="app" v-cloak>  
+	  <div style="padding:10px 15px"><h4 class="weui-media-box__title">维修内容</h4></div>
+  
+  <div class="weui-form-preview">
+      <div class="weui-media-box" style="color:#999" >
+		<div v-for='item in devicetrouble'>{{item.devicename}}{{item.devicetroublename}}</div>
+      </div>
+  </div>
+    <div style="padding:10px 15px"><h4 class="weui-media-box__title">账单详细</h4></div>
+
+
+    <div class="weui-form-preview">
+        <div class="weui-form-preview__bd weui-media-box">
+            <div class="weui-form-preview__item" v-for="item in devicetrouble">
+                <label class="weui-form-preview__label" style="color:
+                #333">{{item.devicename}} {{item.devicetroublename}}</label>
+                <span class="weui-form-preview__value" style="color:
+                #333">{{item.money}}</span>
+            </div>
+            <div class="weui-form-preview__item"  v-if='listOthercosts1.length>0'  v-for="item in listOthercosts1">
+                <label class="weui-form-preview__label" style="color:
+                #333">{{item.name}}(材料费)</label>
+                <span class="weui-form-preview__value" style="color:
+                #333">{{item.money}}</span>
+            </div>
+            <div class="weui-form-preview__item" v-if='listOthercosts2.length>0' v-for="item in listOthercosts2">
+                <label class="weui-form-preview__label" style="color:
+                #333">{{item.name}}(附加费)</label>
+                <span class="weui-form-preview__value" style="color:
+                #333">{{item.money}}</span>
+            </div>
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>合计：</p>
+            </div>
+            <div class="weui-cell__ft"><span class="red">¥{{money}}</span></div>
+        </div>
+    </div>
+    <div style="padding:10px 15px"><h4 class="weui-media-box__title" v-if='isPay'>店铺支付</h4> <h4 class="weui-media-box__title" v-else>选择支付方式</h4></div>
+
+    <div class="weui-panel" style="margin-top:0;border-top:1px solid #e5e5e5" v-show="!isPay">
+
+                <div class="weui-panel__bd">
+                    <div class="weui-media-box weui-media-box_small-appmsg">
+                        <div class="weui-cells">
+                          <div class="weui-cell weui-cell_access" @click="pay()">
+                              <div class="weui-cell__hd"><img src="images/weixin.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                              <div class="weui-cell__bd weui-cell_primary">
+                                  <p>微信支付</p>
+                              </div>
+                              <span class="weui-cell__ft"></span>
+                          </div>
+                          <div class="weui-cell weui-cell_access"  @click="toPay('gz2')" v-show="isCard">
+                              <div class="weui-cell__hd"><img src="images/bankcard.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                              <div class="weui-cell__bd weui-cell_primary">
+                                  <p>挂账支付</p>
+                              </div>
+                              <span class="weui-cell__ft"></span>
+                          </div>
+                          <div class="weui-cell weui-cell_access"  @click="toPay('cz1')">
+                              <div class="weui-cell__hd"><img src="images/purse.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                              <div class="weui-cell__bd weui-cell_primary">
+                                  <p>余额支付</p>
+                              </div>
+                              <span class="weui-cell__ft"></span>
+                          </div>
+                            <div class="weui-cell weui-cell_access" @click="addsaving()">
+                                <div class="weui-cell__hd"><img src="images/cart.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                                <div class="weui-cell__bd weui-cell_primary">
+                                    <p style="line-height:1.2">充值
+                                      <!-- <br/><span style="color:#999;font-size:12px">充500送100！</span> -->
+                                    </br/></p>
+                                </div>
+                                <span class="weui-cell__ft"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+<script src="http://cdn.bootcss.com/js-cookie/2.1.2/js.cookie.min.js "></script>
+<script  src='js/vue.min.js'></script>
+<script src='js/axios.min.js'></script>
+<script src='js/jquery.js'> </script>
+<script src='js/arg.js'></script>
+<script src='js/settlement.js'></script>
+</body>
+</html>

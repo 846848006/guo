@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>快速报修</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	<link rel="stylesheet" type="text/css" href="style/weui.min.css"/>
+  	<link rel="stylesheet" href="style/example.css">
+    <link rel="stylesheet" href="style/css/seeksite.css">
+</head>
+<style>
+    .tu img{
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        left: 5px;
+        top: 5px;
+
+    }
+    .tu1 img{
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        left: 40%;
+        top: 4px;
+    }
+
+</style>
+<body>
+<div id='app' v-cloak>
+<!-- <div>
+   <div class="page__bd">
+    <div class="tophead">
+    <div class="search"  v-bind:class="{searchwid:issearchwid}" >
+      <i class="weui-icon-search"></i>
+      <input type="text" placeholder="搜索"   @input='search($event)'  v-model='antistop'>
+    </div>
+    <p class="cancel" v-show='issearchwid'  @click='abolish()'>取消</p>
+    </div>
+    </div>
+</div> -->
+
+
+<div class="">
+    <div class="page__bd">
+        <div class="weui-search-bar" id="searchBar">
+            <div class="weui-search-bar__form">
+                <div class="weui-search-bar__box">
+                    <i class="tu"><img src="images/da.png" alt=""> </i> <input type="search" class="weui-search-bar__input" id="searchInput" @blur="search($event)" @input="search($event)" placeholder="搜索" required/>
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear" @click="searchClear()"> </a>
+                </div>
+                <label class="weui-search-bar__label" id="searchText" @click="searchTextClick()">
+                    <i class="tu1"><img src="images/da.png" alt=""> </i> <span> 搜索 </span> </label></div>
+            <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel" @click="searchCancel()"> 取消 </a></div>
+
+        <div class="weui-cells searchbar-result  zindex-list-classify" id="searchResult" style="display:none">
+
+            <div class="weui-cell weui-cell_access"  @click="toFailt(r.id,r.name)" v-for="r in searchres">
+                <div class="weui-cell__bd weui-cell_primary">
+                    <p> {{r.name}} </p></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 离我最近的 -->
+<div  v-if='issh'>
+<div class="weui-loadmore weui-loadmore_line" style="margin:1.5em auto -1em"       >
+      <span class="weui-loadmore__tips" style="background:#f8f8f8">离我最近</span>
+    </div>
+    <div class="weui-panel weui-panel_access"  style="border:none"  v-if="items.isLately=='yes'"  v-for="items in nearbystorelist">
+      <div class="weui-panel__bd" @click='choose1(items)'>
+          <div class="weui-media-box weui-media-box_appmsg" >
+
+              <div class="weui-media-box__bd">
+                <h4 class="weui-media-box__title" >{{items.name}}({{items.storenumber}})</h4>
+                <p class="weui-media-box__desc">{{items.address}}</p >
+              </div>
+              <div class="weui-cell__ft">
+                  <input type="radio" class="weui-check check1" name="radio1 procheck">
+                  <span class="weui-icon-checked"></span>
+              </div>
+          </div >
+      </div>
+    </div> 
+    </div>
+     <!-- 我创建的 -->
+     <div    v-if='issh'>
+ <div   class="weui-loadmore weui-loadmore_line" style="margin:1.5em auto -1em">
+   <span class="weui-loadmore__tips" style="background:#f8f8f8">我创建的</span>
+ </div>
+ <div class="weui-panel weui-panel_access" style="border:none" v-for="item in ownstorelist">
+   <div class="weui-panel__bd"  @click='choose1(item)'>
+       <div class="weui-media-box weui-media-box_appmsg">
+ 
+           <div class="weui-media-box__bd">
+               <h4 class="weui-media-box__title">{{item.name}}({{item.storenumber}})</h4>
+               <p class="weui-media-box__desc">{{item.address}}</p >
+           </div>
+           <div class="weui-cell__ft">
+               <input type="radio" class="weui-check check1" name="radio1 procheck" 
+                      >
+               <span class="weui-icon-checked"></span>
+               <span class="weui-icon-checked"></span>
+           </div>
+       </div >
+   	</div>
+ 	</div>
+      </div>
+  <div class="weui-cells searchbar-result  zindex-list-classify" id="searchResult"  v-if='isshs'>
+
+            <div class="weui-panel weui-panel_access"  style="border:none" v-for='item in searchres' >
+              <div class="weui-panel__bd" @click="choose1(item)">
+                  <div class="weui-media-box weui-media-box_appmsg" >
+
+                      <div class="weui-media-box__bd">
+                          <h4 class="weui-media-box__title">{{item.name}}({{item.storenumber}})</h4>
+                          <p class="weui-media-box__desc">{{item.address}}</p >
+                      </div>
+                      <div class="weui-cell__ft">
+                          <input type="radio" class="weui-check check1" name="radio1 procheck" @click="choose2(item)">
+              
+                          <span class="weui-icon-checked"></span>
+                      </div>
+                  </div >
+              </div>
+            </div>
+        </div>
+ <div class="page__bd page__bd_spacing" style="padding:2em 15px"   >
+     <a style="background-color:#ed8f26;" class="weui-btn weui-btn_warn" @click="btn()">没有找到你的门店？创建新门店</a>
+ </div>
+ </div> 
+</div>
+</div>
+
+<div id="container"></div>
+
+</div>
+</body>
+<script src='js/arg.js'></script>
+<script src="js/vue.min.js"></script>
+<script src='js/axios.min.js'></script>
+<script src=js/jquery.js></script>
+<script src="http://cdn.bootcss.com/js-cookie/2.1.2/js.cookie.min.js "></script>
+<script src='js/seeksite.js'></script>
+
+
+
+</html>

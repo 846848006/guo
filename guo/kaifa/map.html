@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>添加地址</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <link rel="stylesheet" type="text/css" href="style/weui.min.css" />
+        <link rel="stylesheet" href="style/example.css">
+        <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main.css?v=1.0"
+        />
+        <!--map 自定义 css start-->
+        <link rel="stylesheet" href="style/map.css" />
+    </head>
+    
+    <body>
+        <div id="app"></div>
+   
+    <script src="js/vue.min.js"></script>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=3cdb1e405402187604cec1a47c7d84df&plugin=AMap.Geocoder"></script>
+    <script type="text/javascript" src="http://webapi.amap.com/demos/js/liteToolbar.js"></script>
+    <!--map js end-->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <!--map API 调用 支持回调 js start-->
+    <script src="js/map.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            mounted() {
+                var handle = function(address, lnglatXY) {
+                    localStorage.setItem('newAddress', address)
+                    var lnglatXY1 = JSON.stringify(lnglatXY);
+                    sessionStorage.setItem('lnglatXY', lnglatXY1)
+                    window.location.href = 'add_addres.html';
+                }
+                map_create(handle)
+            }
+        })
+    </script>
+     </body>
+
+</html>

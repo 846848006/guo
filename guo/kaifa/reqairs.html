@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>快速报修</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <link rel="stylesheet" type="text/css" href="style/weui.min.css" />
+        <link rel="stylesheet" href="style/example.css">
+        <link rel="stylesheet" type="text/css" href="style/mobiscroll.custom-2.17.1.min.css">
+        <script type="text/javascript" src="js/time.js"></script>
+        <style>
+            [v-cloak] {
+                display: none !important;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div id="app" v-cloak>
+            <!-- 选择故障 -->
+            <div class="selectrepairs">
+                <div class="weui-cells weui-cells_radio" style="margin-top:0">
+                    <div class="weui-cells__title">维修项目</div>
+                    <div class="weui-cell" v-for="f in data2">
+                        <div class="weui-cell__bd">
+                            <h4 class="weui-media-box__title">{{f.name}}</h4>
+                            <p class="weui-media-box__desc">{{f.deviceName}}</p>
+                        </div>
+                        <div class="weui-cell__ft">
+                            <i class="weui-icon-cancel" :id="f.id" @click='remove($event)'></i>
+                        </div>
+                    </div>
+                    <a class="weui-cell weui-cell_access" @click="toDevice()">
+
+          <div class="weui-cell__hd"><img
+
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAfUlEQVRYR+2UQQrAMAgEkxe1/f8n0hel7q0UiSKCJazQU0kch6y9FVcv7t8IQAM0kGFgSJSnfFck0hkAaI4K3RU69JmUADSwvwHk/Ihk/HUGd6h7whPDDIBbAE5tCA+ANfz+b4AGaOD3BrAnUGrOLfqMPWD1WP4nAA2UG3gAysUVIa4hOosAAAAASUVORK5CYII="
+
+                  alt="" style="width:20px;margin-right:5px;display:block"></div>
+
+          <div class="weui-cell__bd">
+
+              <p>选择其他故障</p>
+
+          </div>
+
+          <div class="weui-cell__ft">
+
+          </div>
+
+      </a>
+                </div>
+            </div>
+            <!-- 选择地址 -->
+            <div class="weui-cells">
+                <label class="weui-cell weui-check__label" v-show='name'>
+                    <div class="weui-cell__bd">
+                        <p>{{name}}</p>
+                        <p style="color: #666;">{{newAddress}}</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <input type="radio" class="weui-check" name="radio1" checked="checked">
+                        <span class="weui-icon-checked"></span>
+                    </div>
+                </label>
+                <a class="weui-cell weui-cell_access" @click='goseeksite()'>
+
+          <div class="weui-cell__bd">
+
+              <p style="color:#169bd5" >选择报修地址</p>
+
+          </div>
+
+          <div class="weui-cell__ft">
+
+          </div>
+
+      </a>
+            </div>
+            <!-- 选择上门时间 -->
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+
+            <div class="weui-cell__hd" id="selectGroupselect-lable"><label class="weui-label">上门时间</label></div>
+
+            <div class="weui-cell__bd" id="selectGroupselect-show">
+
+                <input class="weui-input" id="selectTime"    v-model="time" @change="timechange($event)">
+
+            </div>
+
+            <div class="weui-cell__ft">
+
+            </div>
+
+        </a>
+            </div>
+            <!-- 选择时间 -->
+            <div class="demo-wrapper demo-wrapper-selectGroupselect">
+                <select id="selectGroupselect-demo">
+                    <optgroup v-if='checkdate()' :label="new Date().format('MM月dd日')+'(今天)'"
+                    ::value="new Date().format('yyyy-MM-dd')">
+                        <option v-if='checktime(8)' :value="new Date().format('yyyy-MM-dd')+ ' 08:00'"
+                        :selected=selectedtime(8)>08:00</option>
+                        <option v-if='checktime(9)' :value="new Date().format('yyyy-MM-dd')+ ' 09:00'"
+                        :selected=selectedtime(9)>09:00</option>
+                        <option v-if='checktime(10)' :value="new Date().format('yyyy-MM-dd')+ ' 10:00'"
+                        :selected=selectedtime(10)>10:00</option>
+                        <option v-if='checktime(11)' :value="new Date().format('yyyy-MM-dd')+ ' 11:00'"
+                        :selected=selectedtime(11)>11:00</option>
+                        <option v-if='checktime(12)' :value="new Date().format('yyyy-MM-dd')+ ' 12:00'"
+                        :selected=selectedtime(12)>12:00</option>
+                        <option v-if='checktime(13)' :value="new Date().format('yyyy-MM-dd')+ ' 13:00'"
+                        :selected=selectedtime(13)>13:00</option>
+                        <option v-if='checktime(14)' :value="new Date().format('yyyy-MM-dd')+ ' 14:00'"
+                        :selected=selectedtime(14)>14:00</option>
+                        <option v-if='checktime(15)' :value="new Date().format('yyyy-MM-dd')+ ' 15:00'"
+                        :selected=selectedtime(15)>15:00</option>
+                        <option v-if='checktime(16)' :value="new Date().format('yyyy-MM-dd')+ ' 16:00'"
+                        :selected="selectedtime(16)">16:00</option>
+                        <option v-if='checktime(17)' :value="new Date().format('yyyy-MM-dd')+ ' 17:00'"
+                        :selected=selectedtime(17)>17:00</option>
+                        <option v-if='checktime(18)' :value="new Date().format('yyyy-MM-dd')+ ' 18:00'"
+                        :selected=selectedtime(18)>18:00</option>
+                        <option v-if='checktime(19)' :value="new Date().format('yyyy-MM-dd')+ ' 19:00'"
+                        :selected=selectedtime(19)>19:00</option>
+                        <option v-if='checktime(20)' :value="new Date().format('yyyy-MM-dd')+ ' 20:00'"
+                        selected=selectedtime(20)>20:00</option>
+                    </optgroup>
+                    <optgroup :label="new Date().addDays(1).format('MM月dd日')+'(明天)'" :value="new Date().addDays(1).format('yyyy-MM-dd')">
+                        <option :value="new Date().addDays(1).format('yyyy-MM-dd')+ ' 08:00'">08:00</option>
+                        <option :value="new Date().addDays(1).format('yyyy-MM-dd')+ ' 09:00'">09:00</option>
+                        <option :value="new Date().addDays(1).format('yyyy-MM-dd')+ ' 10:00'">10:00</option>
+                        <option :value="new Date().addDays(1).format('yyyy-MM-dd')+ ' 11:00'">11:00</option>
+                        <option :value="new Date().addDays(1).format('yyyy-MM-dd')+ ' 12:00'">12:00</option>
+                        <option :value="new Date().addDays(1).format('yyyy-MM-dd')+ ' 13:00'">13:00</option>
+                        <option :value="new Date().addDays(1).format('yyyy-MM-dd')+ ' 14:00'">14:00</option>
+                        <option :value="new Date().addDays(1).format('yyyy-MM-dd')+ ' 15:00'">15:00</option>
+                        <option :value="new Date().addDays(1).format('yyyy-MM-dd')+ ' 16:00'">16:00</option>
+                        <option :value="new Date().addDays(1).format('yyyy-MM-dd')+ ' 17:00'">17:00</option>
+                        <option :value="new Date().addDays(1).format('yyyy-MM-dd')+ ' 18:00'">18:00</option>
+                        <option :value="new Date().addDays(1).format('yyyy-MM-dd')+ ' 19:00'">19:00</option>
+                        <option :value="new Date().addDays(1).format('yyyy-MM-dd')+ ' 20:00'">20:00</option>
+                    </optgroup>
+                    <optgroup :label="new Date().addDays(2).format('MM月dd日')+'(后天)'" :value="new Date().addDays(2).format('yyyy-MM-dd')">
+                        <option :value="new Date().addDays(2).format('yyyy-MM-dd')+ ' 08:00'">08:00</option>
+                        <option :value="new Date().addDays(2).format('yyyy-MM-dd')+ ' 09:00'">09:00</option>
+                        <option :value="new Date().addDays(2).format('yyyy-MM-dd')+ ' 10:00'">10:00</option>
+                        <option :value="new Date().addDays(2).format('yyyy-MM-dd')+ ' 11:00'">11:00</option>
+                        <option :value="new Date().addDays(2).format('yyyy-MM-dd')+ ' 12:00'">12:00</option>
+                        <option :value="new Date().addDays(2).format('yyyy-MM-dd')+ ' 13:00'">13:00</option>
+                        <option :value="new Date().addDays(2).format('yyyy-MM-dd')+ ' 14:00'">14:00</option>
+                        <option :value="new Date().addDays(2).format('yyyy-MM-dd')+ ' 15:00'">15:00</option>
+                        <option :value="new Date().addDays(2).format('yyyy-MM-dd')+ ' 16:00'">16:00</option>
+                        <option :value="new Date().addDays(2).format('yyyy-MM-dd')+ ' 17:00'">17:00</option>
+                        <option :value="new Date().addDays(2).format('yyyy-MM-dd')+ ' 18:00'">18:00</option>
+                        <option :value="new Date().addDays(2).format('yyyy-MM-dd')+ ' 19:00'">19:00</option>
+                        <option :value="new Date().addDays(2).format('yyyy-MM-dd')+ ' 20:00'">20:00</option>
+                    </optgroup>
+                    <optgroup :label="new Date().addDays(3).format('MM月dd日')" :value="new Date().addDays(3).format('yyyy-MM-dd')">
+                        <option :value="new Date().addDays(3).format('yyyy-MM-dd')+ ' 08:00'">08:00</option>
+                        <option :value="new Date().addDays(3).format('yyyy-MM-dd')+ ' 09:00'">09:00</option>
+                        <option :value="new Date().addDays(3).format('yyyy-MM-dd')+ ' 10:00'">10:00</option>
+                        <option :value="new Date().addDays(3).format('yyyy-MM-dd')+ ' 11:00'">11:00</option>
+                        <option :value="new Date().addDays(3).format('yyyy-MM-dd')+ ' 12:00'">12:00</option>
+                        <option :value="new Date().addDays(3).format('yyyy-MM-dd')+ ' 13:00'">13:00</option>
+                        <option :value="new Date().addDays(3).format('yyyy-MM-dd')+ ' 14:00'">14:00</option>
+                        <option :value="new Date().addDays(3).format('yyyy-MM-dd')+ ' 15:00'">15:00</option>
+                        <option :value="new Date().addDays(3).format('yyyy-MM-dd')+ ' 16:00'">16:00</option>
+                        <option :value="new Date().addDays(3).format('yyyy-MM-dd')+ ' 17:00'">17:00</option>
+                        <option :value="new Date().addDays(3).format('yyyy-MM-dd')+ ' 18:00'">18:00</option>
+                        <option :value="new Date().addDays(3).format('yyyy-MM-dd')+ ' 19:00'">19:00</option>
+                        <option :value="new Date().addDays(3).format('yyyy-MM-dd')+ ' 20:00'">20:00</option>
+                    </optgroup>
+                    <optgroup :label="new Date().addDays(4).format('MM月dd日')" :value="new Date().addDays(4).format('yyyy-MM-dd')">
+                        <option :value="new Date().addDays(4).format('yyyy-MM-dd')+ ' 08:00'">08:00</option>
+                        <option :value="new Date().addDays(4).format('yyyy-MM-dd')+ ' 09:00'">09:00</option>
+                        <option :value="new Date().addDays(4).format('yyyy-MM-dd')+ ' 10:00'">10:00</option>
+                        <option :value="new Date().addDays(4).format('yyyy-MM-dd')+ ' 11:00'">11:00</option>
+                        <option :value="new Date().addDays(4).format('yyyy-MM-dd')+ ' 12:00'">12:00</option>
+                        <option :value="new Date().addDays(4).format('yyyy-MM-dd')+ ' 13:00'">13:00</option>
+                        <option :value="new Date().addDays(4).format('yyyy-MM-dd')+ ' 14:00'">14:00</option>
+                        <option :value="new Date().addDays(4).format('yyyy-MM-dd')+ ' 15:00'">15:00</option>
+                        <option :value="new Date().addDays(4).format('yyyy-MM-dd')+ ' 16:00'">16:00</option>
+                        <option :value="new Date().addDays(4).format('yyyy-MM-dd')+ ' 17:00'">17:00</option>
+                        <option :value="new Date().addDays(4).format('yyyy-MM-dd')+ ' 18:00'">18:00</option>
+                        <option :value="new Date().addDays(4).format('yyyy-MM-dd')+ ' 19:00'">19:00</option>
+                        <option :value="new Date().addDays(4).format('yyyy-MM-dd')+ ' 20:00'">20:00</option>
+                    </optgroup>
+                    <optgroup :label="new Date().addDays(5).format('MM月dd日')" :value="new Date().addDays(5).format('yyyy-MM-dd')">
+                        <option :value="new Date().addDays(5).format('yyyy-MM-dd')+ ' 08:00'">08:00</option>
+                        <option :value="new Date().addDays(5).format('yyyy-MM-dd')+ ' 09:00'">09:00</option>
+                        <option :value="new Date().addDays(5).format('yyyy-MM-dd')+ ' 10:00'">10:00</option>
+                        <option :value="new Date().addDays(5).format('yyyy-MM-dd')+ ' 11:00'">11:00</option>
+                        <option :value="new Date().addDays(5).format('yyyy-MM-dd')+ ' 12:00'">12:00</option>
+                        <option :value="new Date().addDays(5).format('yyyy-MM-dd')+ ' 13:00'">13:00</option>
+                        <option :value="new Date().addDays(5).format('yyyy-MM-dd')+ ' 14:00'">14:00</option>
+                        <option :value="new Date().addDays(5).format('yyyy-MM-dd')+ ' 15:00'">15:00</option>
+                        <option :value="new Date().addDays(5).format('yyyy-MM-dd')+ ' 16:00'">16:00</option>
+                        <option :value="new Date().addDays(5).format('yyyy-MM-dd')+ ' 17:00'">17:00</option>
+                        <option :value="new Date().addDays(5).format('yyyy-MM-dd')+ ' 18:00'">18:00</option>
+                        <option :value="new Date().addDays(5).format('yyyy-MM-dd')+ ' 19:00'">19:00</option>
+                        <option :value="new Date().addDays(5).format('yyyy-MM-dd')+ ' 20:00'">20:00</option>
+                    </optgroup>
+                    <optgroup :label="new Date().addDays(6).format('MM月dd日')" :value="new Date().addDays(6).format('yyyy-MM-dd')">
+                        <option :value="new Date().addDays(6).format('yyyy-MM-dd')+ ' 08:00'">08:00</option>
+                        <option :value="new Date().addDays(6).format('yyyy-MM-dd')+ ' 09:00'">09:00</option>
+                        <option :value="new Date().addDays(6).format('yyyy-MM-dd')+ ' 10:00'">10:00</option>
+                        <option :value="new Date().addDays(6).format('yyyy-MM-dd')+ ' 11:00'">11:00</option>
+                        <option :value="new Date().addDays(6).format('yyyy-MM-dd')+ ' 12:00'">12:00</option>
+                        <option :value="new Date().addDays(6).format('yyyy-MM-dd')+ ' 13:00'">13:00</option>
+                        <option :value="new Date().addDays(6).format('yyyy-MM-dd')+ ' 14:00'">14:00</option>
+                        <option :value="new Date().addDays(6).format('yyyy-MM-dd')+ ' 15:00'">15:00</option>
+                        <option :value="new Date().addDays(6).format('yyyy-MM-dd')+ ' 16:00'">16:00</option>
+                        <option :value="new Date().addDays(6).format('yyyy-MM-dd')+ ' 17:00'">17:00</option>
+                        <option :value="new Date().addDays(6).format('yyyy-MM-dd')+ ' 18:00'">18:00</option>
+                        <option :value="new Date().addDays(6).format('yyyy-MM-dd')+ ' 19:00'">19:00</option>
+                        <option :value="new Date().addDays(6).format('yyyy-MM-dd')+ ' 20:00'">20:00</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="weui-form-preview__bd" style="overflow: inherit;">
+                <p style='text-align: left;text-indent: 2em;line-height: 1.5;margin-top:0.5em; font-size:0.9em'>您可以在下方输入设备问题的大致描述，方便我们更快帮您确认故障，分配工人上门维修</p>
+            </div>
+            <div class="weui-cells weui-cells_form" style="margin-top:0">
+                <div class="weui-cells__title" style="color: #000000;font-size:16px">图片上传</div>
+                <div class="weui-cell">
+                    <div class="weui-gallery" id="gallery" @click="hiddenUpload()">
+                        <span class="weui-gallery__img" id="galleryImg"></span>
+                        <div class="weui-gallery__opr" @click="removeUpload()">
+                            <a href="javascript:" class="weui-gallery__del" id="uploaderFilesdel">
+
+                        <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+
+                    </a>
+                        </div>
+                    </div>
+                    <div class="weui-uploader__bd">
+                        <ul class="weui-uploader__files" id="uploaderFiles">
+                            <li class="weui-uploader__file" v-for="value in uploads" @click="showUpload($event)"
+                            id="" :style="{backgroundImage:'url('+value+')'}"></li>
+                        </ul>
+                        <div class="weui-uploader__input-box">
+                            <input id="uploaderInput" @change="uploaderInput($event)" class="weui-uploader__input"
+                            type="file" multiple/>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cells__title" style="color: #000000;font-size:16px">文字描述</div>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <textarea class="weui-textarea" style='font-size:0.9em' placeholder="输入您的设备问题描述。设备品牌、型号能够帮助我们更好的定位问题"
+                        rows="3" maxlength="200" v-model="describe"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-media-box weui-media-box_text" style="margin-bottom: 50px">
+                <p style="overflow:initial;display:-webkit-flex;color: #000000;font-size:17px"
+                class="weui-media__desc">使用说明:</p>
+                <p style="display:-webkit-flex;margin-top:0.5em" class="weui-media__desc">1、价格统一透明，无任何隐形收费。
+                    <br/>2、快速报修后果匠将在10分钟内与您取得联系
+                    <br/>3、果匠维修师傅将在60分钟内快速到达</p>
+                <a href='explain.html' style="color:#169bd5;font-size:12px;border-bottom: 1px solid #169bd5">更多说明点击查看&nbsp;&nbsp;></a>
+            </div>
+            <div class="weui-tabbar" style="position:fixed;height:48px">
+                <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on" style="flex: 1; border-top:1px solid #9D9D9D;border-bottom:1px solid #9D9D9D; padding:10px 0;">
+
+        <p class="weui-tabbar__label" style="color:#353535;font-size:18px;" @click="verify()">确认报修</p>
+
+    </a>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        <script src="http://cdn.bootcss.com/js-cookie/2.1.2/js.cookie.min.js"></script>
+        <script src="js/vue.min.js"></script>
+        <script src='js/arg.js'></script>
+        <script src='js/axios.min.js'></script>
+        <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=3c207d2590a0eeaa75ce90593a5ebf5a"></script>
+        <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+        <script type="text/javascript" src="js/mobiscroll.custom-2.17.1.min.js"></script>
+        <script src='js/exif.js'></script>
+        <script src='js/reqairs.js'></script>
+    </body>
+
+</html>

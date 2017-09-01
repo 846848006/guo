@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>添加地址</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <link rel="stylesheet" type="text/css" href="style/weui.min.css" />
+        <link rel="stylesheet" href="style/example.css">
+        <style>
+            [v-cloak] {
+                display: none !important;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div id="app" v-cloak>
+            <div id="box">
+                <div class="weui-cells__title">门店信息</div>
+                <div class="weui-cells">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">门店名称</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input type="text" style="text-indent: 1em;" class="weui-input" placeholder="请输入门店名称"
+                            v-model="storeName">
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label for="" class="weui-label">门店地址</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="select2">
+                                <option value="2">北京</option>
+                            </select>
+                        </div>
+                    </div>
+                    <a class="weui-cell weui-cell_access" id="map_click" href="javascript:;"
+                    @click='map_click'>
+
+                <div class="weui-cell__bd">
+
+                    <p class="addrsss_text" style="margin-left:7em" >{{newAdd}}</p>
+
+                </div>
+
+                <div class="weui-cell__ft"></div>
+
+           	</a>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">填写详细地址</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input type="text" style="text-indent: 1em;" class="weui-input" placeholder="例如4号楼1单元005"
+                            v-model="storeAddress2">
+                        </div>
+                    </div>
+                </div>
+                <div class="page__bd page__bd_spacing" style="padding:5em 15px">
+                    <a style="background-color:#ed8f26;" class="weui-btn weui-btn_warn" @click="postUser()">确认添加</a>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="js/vue.min.js"></script>
+    <script src='js/axios.min.js'></script>
+    <script src=js/jquery.js></script>
+    <script src='js/qs.js'></script>
+    <script src="http://cdn.bootcss.com/js-cookie/2.1.2/js.cookie.min.js "></script>
+    <script src='js/add_addres.js'></script>
+      
+    
+
+</html>

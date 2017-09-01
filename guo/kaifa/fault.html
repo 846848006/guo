@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>选择故障</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <link rel="stylesheet" type="text/css" href="style/weui.min.css"/>
+    <link rel="stylesheet" href="style/example.css">
+    <style>
+  [v-cloak] {
+    display: none !important;
+  }
+    </style>
+</head>
+<body>
+<div  id="app" v-cloak>
+<div style="padding-bottom:48px;">
+
+    <div class="weui-cells weui-cells_checkbox" style="margin-top:0">
+        <label class="weui-cell weui-check__label" v-for="item in items">
+            <div class="weui-cell__hd">
+                <input class="weui-check" name="checkbox1"  type="checkbox"  @change="changeChecked($event,item)">
+                <i class="weui-icon-checked"></i>
+            </div>
+            <div class="weui-cell__bd">
+                <p>{{item.name}}</p>
+            </div>
+            <div class="weui-cell__ft" style="font-size:14px"><span style="color: #f43530;">{{item.money?'￥'+item.money:item.money}}</span>{{item.unit}}</div>
+        </label>
+    </div>
+</div>
+<div class="weui-tabbar" style="position:fixed;height:48px">
+    <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on"
+       style="flex: 1; border-top:1px solid #9D9D9D;border-bottom:1px solid #9D9D9D; padding:10px 0;">
+        <p class="weui-tabbar__label" style="color:#353535;font-size:18px;" @click="subFault()">确认选择</p>
+    </a>
+</div>
+  </div>
+  <script src='js/arg.js'></script>
+<script src="js/vue.min.js"></script>
+<script src='js/axios.min.js'></script>
+<script src=js/jquery.js></script>
+<script src="http://cdn.bootcss.com/js-cookie/2.1.2/js.cookie.min.js "></script>
+<script src='js/fault.js'></script>
+</body>
+</html>

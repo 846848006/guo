@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>报修详情</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">	
+<link rel="stylesheet" type="text/css" href="style/weui.min.css"/>
+<link rel="stylesheet" href="style/example.css">
+<link rel="stylesheet" type="text/css" href="style/mobiscroll.custom-2.17.1.min.css">
+<style>
+ .bg1{
+		color:#F8931F !important;
+		background:#f8f8f8 !important;
+		border: none !important;
+	}
+	.weui-cell:before{
+		border: none;
+	}
+	.tab1{
+	border: none !important;
+	color: #F8931F;
+	background:#fafafa !important;
+
+	}
+	.tab{
+		border:none !important;
+		color: #F8931F;
+		background: #fafafa !important
+	}
+	.weui-navbar__item:after{
+		border: none;
+	}
+ 	.weui-navbar:after{
+		border: none;
+	}
+	.istabno{
+		background: #D9D9D9;
+		border: 1px solid  #ccc
+	}
+
+ .weui-cell__ft{
+  	color: #000;
+  }
+	.weui-csll__ft{
+		color: #000
+	}
+	.weui-uploader__bd{
+		margin-right: 0px !important
+	}
+	.weui-form-preview__value{
+		color: #000;
+	}
+	.masking{
+		width: 100%;
+		position: absolute;
+		top: 0px;
+		height: 100%;
+		bottom: 0px;
+		background:rgba(0,0,0,0.4);
+		z-index: 999;
+			}
+	.content{
+		width: 70%;
+		height: 150px;
+		background: #fff;
+		z-index: 999;
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		margin: auto;
+	}
+	.text{
+		text-align: center;
+		line-height: 100px;
+	}
+	.contentlist{
+		display: flex;
+
+	}
+	.contentlist li{
+		text-align: center;
+		line-height: 50px;
+		width: 50%
+	}
+	.weui-navbar__item{
+		background: #eee;
+		color: #000;
+		border: 1px solid #ccc
+	} 
+
+
+</style>
+</head>
+<body> 
+<div id="app" v-cloak >
+<!-- 订单详情头部 -->
+        <div class="weui-navbar" style="position:fixed">
+            <div class="weui-navbar__item" id="btn1"  v-bind:class="{bg1:!isActive}"  @click = "but1">维修单状态 </div>
+            <div class="weui-navbar__item "  v-bind:class="{bg1:isActive}"  id="btn2" @click = "but2" >维修单详情 </div>
+        </div>
+<!-- 工单信息 -->
+<div id="tab1" v-show='istab1'  v-bind:class="{bg:isActive}">  
+	<div class="weui-form-preview" style="margin-top: 70px">
+					<div class="weui-form-preview__bd" style="border-bottom: 1px solid #D9D9D9;background-color: #ededed;padding:0 15px">
+						<p style="text-align:left">
+							<span class="weui-form-preview__value">工单信息</span>
+						</p>
+					</div>
+					<div class="weui-form-preview__bd" style="padding:5px 15px;text-align:left">
+						<div class="weui-cell" style="padding:0">
+							<div class="weui-cell__bd" style="color:#000">{{items.visittime}}</div>
+							<div class="weui-csll__ft" style="color:#000">{{getStatus(items.status)}}</div>
+						</div>
+						<p>
+							<span class="weui-form-preview__value" style="color:#000" >{{items.storename}}({{items.storeNumber}})</span>
+						</p>
+						<p>
+							<span class="weui-form-preview__value" style="color:#000">{{items.address}}</span>
+						</p>
+						<p>
+							<span class="weui-form-preview__value">{{items.serviceremark}}</span>
+						</p><br/>
+					</div>
+			</div>
+			<!-- 报修内容 -->
+		<div class="weui-form-preview">
+			<div class="weui-form-preview__bd" style="border-bottom: 1px solid #D9D9D9;background-color: #ededed;padding:0 15px">
+				<p style="text-align:left">
+					<span class="weui-form-preview__value">报修内容</span>
+				</p>
+			</div>
+
+			<div class="weui-cell" v-for="item in devicetrouble" style="border-bottom:1px solid #e5e5e5">
+					<div class="weui-cell__bd">
+							<h4 class="weui-media-box__title">{{item.devicename}}</h4>
+							<p class="weui-media-box__desc" >{{item.devicetroublename}}</p>
+					</div>
+					<div class="weui-cell__ft">¥{{item.money}}</div>
+			</div>
+
+			<div class="weui-cell" v-for="item in todes" style="border-bottom:1px solid #e5e5e5">
+					<div class="weui-cell__bd">
+							<h4 class="weui-media-box__title">{{item.name}}</h4>
+							<p class="weui-media-box__desc" >{{item.type==1?"(材料费)":"(附加费)" }}</p>
+					</div>
+					<div class="weui-cell__ft">¥{{item.money}}</div>
+			</div>
+
+		<div class="weui-uploader__bd" style="margin-top:10px;padding:10px" v-show='imgdescription.length>0'>
+			<ul class="weui-uploader__files" id="uploaderFiles">
+					<li class="weui-uploader__file" v-for="value in imgdescription"
+							id="{{index}}" :style="{backgroundImage:'url('+value+')'}"></li>
+			</ul>
+		</div>
+		<div class="weui-form-preview__bd" style="padding:5px 15px;text-align:left">
+				<span class="weui-form-preview__value">{{items.description}}</span>
+		</div>
+	</div> 
+<!-- 工人信息 -->
+<div class="weui-form-preview" >
+					<div class="weui-form-preview__bd" style="border-bottom: 1px solid #D9D9D9;background-color: #ededed;padding:0 15px">
+						<p >
+							<span class="weui-form-preview__value" style="text-align: left;">工人信息</span>
+						</p>
+					</div>
+				
+ <div v-for="list3_item in list3_items">
+	<div class="weui-form-preview__bd" style="padding:0px 15px">
+		<p>
+			<label class="weui-form-preview__label" v-show='list3_item.type==3'>{{list3_item.name}}</label>
+			<label class="weui-form-preview__label" v-show='list3_item.type==4'>{{list3_item.name}}(工长)</label>
+			<span class="weui-form-preview__value">{{list3_item.phone}}</span>
+		</p>
+	</div>
+</div>
+			</div>
+	<!-- 其他信息 -->
+<div class="weui-form-preview" style="margin-bottom: 50px">
+					<div class="weui-form-preview__bd" style="border-bottom: 1px solid #D9D9D9;background-color: #ededed;padding:0 15px">
+						<p style="text-align:left">
+					<span class="weui-form-preview__value">其他信息</span>
+					</p>
+					</div>
+					<div>
+						<div class="weui-form-preview__bd" style="padding:5px 15px">
+							<p>
+								<label class="weui-form-preview__label" >订单编号：</label>
+								<span class="weui-form-preview__value">{{items.ordernumber}}</span>
+							</p>
+							<p>
+								<label class="weui-form-preview__label">创建时间：</label>
+								<span class="weui-form-preview__value">{{items.createtime}}</span>
+							</p>
+							<p v-show="items.completetime">
+								<label class="weui-form-preview__label">完成时间：</label>
+								<span class="weui-form-preview__value">{{items.completetime}}</span>
+							</p>
+						</div>
+					</div>
+			</div>
+	<!-- 取消工单 -->
+<div style="padding:15px" v-show="iscancelorder">
+					<a href="javascript:;" class="weui-btn weui-btn_primary" @click="cancelorder($event)">取消工单</a>
+			</div>
+
+	<!-- 去支付 -->
+		<div class="weui-tabbar" style="position:fixed" v-show="items.status==8">
+        <a href="tel:010-84274020" class="weui-tabbar__item weui-bar__item_on" style="flex: 1; border:1px solid #9D9D9D; padding:10px 0" >
+            <p class="weui-tabbar__label" style="color:#353535">联系客服</p>
+        </a>
+        <a  class="weui-tabbar__item" style="flex: 2;padding:10px 0;border:1px solid #9D9D9D;" @click='zhifu()'>
+            <p class="weui-tabbar__label" style="color:#353535">去支付</p>
+        </a>
+		</div>
+	<!-- 验收通过 -->
+
+<!--  			<div class="weui-tabbar" style="position:fixed" v-show="items.status==7">
+		        <a href="tel:010-84226366" class="weui-tabbar__item weui-bar__item_on" style="flex: 1; border:1px solid #9D9D9D; padding:10px 0" >
+		            <p class="weui-tabbar__label" style="color:#353535">联系客服</p>
+		        </a>
+		        <a class="weui-tabbar__item" style="flex: 2;padding:10px 0;border:1px solid #9D9D9D;" @click='check()'>
+		            <p class="weui-tabbar__label" style="color:#353535">验收通过</p>
+		        </a>
+		</div> -->
+<!-- 	弹出层	 -->
+	<div class="masking" v-if='ismasking'>
+			<div class="content">
+				<div class="text">您确认取消吗？</div>
+				<ul class="contentlist">
+				<li id="abolish" @click='abolish'>取消</li>
+				<li id="affirm" @click='affirm'>确认</li>
+				</ul>
+		</div>
+	</div>
+</div>
+ <!--维修单详情-->
+	<div style="margin-top:4em;margin-bottom:6em;position:relative" id="teb2" v-show="!istab1">
+		<div style="margin:0 30px;border-left:1px solid #D9D9D9;margin-top:0.5em"  v-for="item1 in items1">
+			<div class="weui-cell" style="padding:0 15px;">
+		        <div class="weui-cell__bd">
+		           <div style="width:0.5em;height:0.5em;background:#D9D9D9;border-radius:50%;float:left;position:absolute;left:-0.3em"></div>
+		           <p>{{item1.name}}</p>
+		        </div>
+		        <div class="weui-cell__ft">{{item1.createtime}}</div>
+		  </div>
+		  <div class="weui-cell" style="padding:0 15px" >
+		        <div class="weui-cell__ft" style="text-align: left;">
+		        	 <p>{{item1.content}}</p>
+		        </div>
+		  </div>
+		</div>
+		 <div class="weui-tabbar" style="position:fixed">
+               <a href="tel:010-84274020" class="weui-tabbar__item weui-bar__item_on" style="flex: 1; border-top:1px solid #9D9D9D;border-bottom:1px solid #9D9D9D; padding:10px 0;">
+	            <p class="weui-tabbar__label" style="color:#353535">联系客服</p>
+	        	</a>
+    	</div>
+	</div>
+</div>
+	</div>
+<script src='js/arg.js'> </script>
+<script src="js/vue.min.js"></script>
+<script src='js/axios.min.js'></script>	
+<script src='js/jquery.js'></script>
+<script src="http://cdn.bootcss.com/js-cookie/2.1.2/js.cookie.min.js "></script>
+<script>
+
+
+	 	if(sessionStorage.getItem('goodsOrderId')){
+        console.log(1)
+      }else{
+   		var reg = new RegExp("(^|&)" +"workorderId"+ "=([^&]*)(&|$)","i");
+  		 var r = window.location.search.substr(1).match(reg);
+  		 console.log(r[2])
+  		 sessionStorage.setItem('goodsOrderId',r[2])
+      }
+
+
+   var openid = Cookies.get('openid')
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + Cookies.get('token');
+    if (Arg('code')) {
+        Cookies.set('wxtoken',Arg('code'),{
+            expires:999999
+        });
+    }
+    if (!Cookies.get('wxtoken')) {
+        getToken();
+    }
+
+    function getToken() {
+       document.location.href = "http://api.benehugo.com/gjkx/html/yonghu/get-weixin-code.html?redirect_url=" + (document.location.href.split('?')[0]);
+    }
+
+ axios.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token');
+
+  	
+var vm=new Vue({
+el:'#app',
+data:{
+	devicetrouble:[],
+	istabno:true,
+	istabno1:false,
+	items:[],
+	imgdescription:[],
+	devicetrouble:[],
+	goodsOrderId:null,
+	status:null,
+	ismasking:false,
+	id:null,
+	iscancelorder:null,
+	list3_items:[],
+	items1:[],
+	istab1:true,
+	isActive:true,
+	PublicUrl:"http://test.benehugo.com/gjkx/",
+	todes:[]
+	},
+	mounted(){
+	//请求维修详情数据
+  start()
+    function start() {
+      if(Cookies.get('openid')){
+        checkToken();
+        }
+      else{
+        getUserInfo();
+        }
+        }
+    //获取信息
+    function getUserInfo(){
+      axios.get("http://test.benehugo.com/gjkx/weixin/getOpenid?secret=06fb680f639a3f180f08cdce28b7161d&code="+ Cookies.get('wxtoken'),{},{
+        headers:{
+            'Authorization':"Bearer " + Cookies.get('wxtoken')
+                }
+                })
+        .then(
+            function (response) {
+              if(response.data=="token_expired"){
+                getToken();
+                }
+              else{
+                var openid = response.data;
+                    Cookies.set('openid',openid,{
+                    expires:999999
+                    });
+                    start();
+                    }})}
+    //获取token码
+    function checkToken(){
+      axios.get("http://test.benehugo.com/gjkx/auth/token?appid=gjkx&secret=06fb680f639a3f180f08cdce28b7161d")
+        .then(
+          function (response) {
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.data;
+
+            getDeviceType();
+
+
+        });}
+var shlf=this
+       function getDeviceType(){
+
+	this.goodsOrderId=sessionStorage.getItem('goodsOrderId')
+	axios.get('http://test.benehugo.com/gjkx/workorder/show?secret=06fb680f639a3f180f08cdce28b7161d&workorderId='+this.goodsOrderId)
+		.then(function(data){
+			shlf.todes = data.data.data.othercostsList?data.data.data.othercostsList:[];
+			console.log(shlf.todes)
+			shlf.imgdescription=data.data.data.imgdescription?data.data.data.imgdescription.split(','):[];
+			shlf.items=data.data.data
+			var status=data.data.data.status
+			shlf.status=data.data.data.status
+			shlf.id=data.data.data.id
+			if(status==4 || status==7 || status==8 || status==9 || status==10 || status==11 ){
+				shlf.iscancelorder=false
+			}else{
+				shlf.iscancelorder=true
+			}	
+			shlf.id=data.data.data.id
+			shlf.devicetrouble=data.data.data.workorderdevicetroubleList?data.data.data.workorderdevicetroubleList:[];
+			})
+	axios.get('http://test.benehugo.com/gjkx/workorder/worker?secret=06fb680f639a3f180f08cdce28b7161d&workorderId='+sessionStorage.getItem('goodsOrderId'))
+		.then(function(data){
+			shlf.list3_items=data.data.data
+			})
+        }
+
+
+	
+			},
+	methods: {
+		//状态点击
+		but1:function(){
+			this.istab1=false
+			this.isActive=false
+			var shlf=this
+			axios.get('http://test.benehugo.com/gjkx/workorderstatus/list?secret=06fb680f639a3f180f08cdce28b7161d&workorderId='+sessionStorage.getItem('goodsOrderId'))
+				.then(function(data){
+					shlf.items1=data.data.data
+					})
+					},
+		//详情点击
+		but2:function(){
+			this.istab1=true,
+			this.isActive=true
+			},
+		//通过返回值 判断订单状态
+		getStatus: function (value) {
+			value=parseInt(value);
+			switch (value) {
+				case 1:
+					return "待接单";
+					break;
+				case 2:
+					return "已接单";
+					break;
+				case 3:
+					return "处理中";
+					break;
+				case 4:
+					return "工单取消";
+					break;
+				case 5:
+					return "已预约";
+					break;
+				case 6:
+					return "维修中";
+					break;
+				case 7:
+					return "维修完成";
+					break;
+				case 8:
+					return "待验收";
+					break;
+				case 9:
+					return "待支付";
+					break;
+				case 10:
+					return "待修正";
+					break;
+				case 11:
+					return "工单完成";
+					break;
+				case 12:
+					return "等人待接单";
+					break;
+				case 13:
+					return "调度待接单";
+					break;
+				case 14:
+					return "转单待接单";
+					break;
+				default :
+					return "其他";
+					break;
+					}
+					},
+		//联系客服
+		cancelorder:function(e){
+			if(this.status==1 || this.status==2 || this.status==5){
+			this.ismasking=true
+				}
+			else if(this.status==3 || this.status==6 ||this.status==15){
+				$(e.target).attr('href','tel:010-84274020')
+			}
+			},
+		//通过返回值判断取消
+		affirm:function(){
+			this.ismasking=false
+			var shlf=this
+			var openid=sessionStorage.getItem('openid')
+			axios.post("http://test.benehugo.com/gjkx/workorder/userCancelWorkorder?secret=06fb680f639a3f180f08cdce28b7161d&workorderId="+this.id+"&memberWeixinOpenId="+Cookies.get('openid')+"&isdoorFee=true")
+				.then(function(data){
+					if(data.data.code=='000000'){
+						alert('取消成功')
+						window.location.href='./maintain_record.html'
+						}
+					else if(data.data.code=='000014'){
+						alert('该单已被取消')
+						}
+					else if(data.data.code=='000001'){
+						alert('操作失败,请关闭后重试')
+						}
+					else if(data.data.code=="000002"){
+						alert('没有找到相应的数据')
+						}
+						})
+						},
+		abolish:function(){
+			this.ismasking=false
+						},
+		zhifu:function(){
+			window.location.href='settlement.html'
+		}
+						}
+						})
+
+</script>
+</body>
+</html>

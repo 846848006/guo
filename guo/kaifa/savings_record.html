@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>储值记录</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	<link rel="stylesheet" href="">  
+	<link rel="stylesheet" type="text/css" href="style/weui.min.css"/>
+    <link rel="stylesheet" href="style/example.css">
+</head>
+<style>
+ [v-cloak] {
+   display: none !important;
+ }
+</style>
+<body>
+<div id="app" v-cloak> 
+ <div v-if="isshow">
+<div class="weui-cells" style="font-size:14px">
+  <div class="weui-cell" v-for='item in items' >
+      <div class="weui-cell__bd">
+          <p>{{item.createtime}}</p>
+      </div>
+      <div class="weui-cell__ft">{{(item.type==1?"套餐购买 +":"报修抵扣 ")+item.balance}}</div>
+  </div>
+</div>
+</div>
+<div v-else style="margin-top:10px;width:100%;text-align:center;">
+  <span id="noorder" style="text-align:center">
+		{{notavailable}}
+  </span>	
+</div>
+</div>
+<script  src='js/vue.min.js'></script>
+<script src='js/axios.min.js'></script>
+<script src='js/jquery.js'> </script>
+<script src='js/arg.js'></script> 	
+<script src='js/savings_record.js'></script>
+
+
+</body>
+</html>
